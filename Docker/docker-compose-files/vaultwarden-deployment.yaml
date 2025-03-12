@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: always
+    environment:
+      - WEBSOCKET_ENABLED=true           # Optional: Enable WebSocket for real-time updates
+      - ADMIN_TOKEN=your_admin_token_here # Optional: Set an admin token for accessing the admin panel
+    ports:
+      - "7050:80"                         # Expose Vaultwarden on port 7050
+    volumes:
+      - ./vaultwarden-data:/data         # Volume to persist data, change path as needed
+    networks:
+      - vaultwarden-net
+    cap_add:
+      - NET_ADMIN                        # Add network admin capabilities to handle DNS resolution (optional)
+    
+networks:
+  vaultwarden-net:
+    driver: bridge

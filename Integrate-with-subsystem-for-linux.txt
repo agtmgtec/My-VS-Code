@@ -1,0 +1,4 @@
+#Remote WSL Extension For Windows and VS Code!
+
+code -install-extension ms-vscode-remote.remote-wsl
+
