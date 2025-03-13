@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       - WEBSOCKET_ENABLED=true           # Optional: Enable WebSocket for real-time updates
-      - ADMIN_TOKEN=your_admin_token_here # Optional: Set an admin token for accessing the admin panel
+      - ADMIN_TOKEN=agtg998## # Optional: Set an admin token for accessing the admin panel
     ports:
       - "7050:80"                         # Expose Vaultwarden on port 7050
     volumes:
