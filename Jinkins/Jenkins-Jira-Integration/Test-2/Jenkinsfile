@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                sh 'echo "Build process running..."'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                sh 'echo "Deployment process running..."'
+            }
+            post {
+                always {
+                    // Send deployment info to Jira
+                    jiraSendDeploymentInfo site: 'mgtechsoft-agt-demo.atlassian.net',
+                                           environmentId: 'staging',
+                                           environmentName: 'Staging',
+                                           environmentType: 'staging'
+                }
+            }
+        }
+    }
+}
