@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                // Simulate build step
+                sh 'echo "Build process running..."'
+            }
+            post {
+                always {
+                    // Send build info to Jira
+                    jiraSendBuildInfo site: 'mgtechsoft-agt-demo.atlassian.net'
+                }
+            }
+        }
+    }
+}
