@@ -1,0 +1,85 @@
+#Installation of Groovy on Windows OS and Linking it to VS Code IDE
+
+Step 1: Download Groovy ZIP
+
+1. Go to the official Groovy download page:
+🔗 https://groovy.apache.org/download.html
+2. Scroll to the Binary Releases section.
+3. Download the latest Apache Groovy ZIP (Windows binary distribution).
+4. Extract the ZIP file to a location of your choice, e.g.,
+5. C:\Groovy
+
+Step 2: Set Up Environment Variables
+
+Now, you need to add Groovy to your PATH so that Windows can recognize the groovy command.
+
+1️. Add GROOVY_HOME
+Press Win + R, type sysdm.cpl, and press Enter.
+Go to Advanced → Click Environment Variables.
+Under System variables, click New and add:
+Variable name: GROOVY_HOME
+Variable value: C:\Groovy (or wherever you extracted it)
+
+2️. Add Groovy’s bin Directory to Path
+In the Environment Variables window, find Path under System variables.
+Select it and click Edit → New.
+Add:
+C:\Groovy\bin
+Click OK → Apply → OK.
+
+Step 3: Verify Installation
+Open Command Prompt (cmd) and run
+groovy -version
+Groovy Version: 4.x.x JVM: 11.0.x Vendor: OpenJDK OS: Windows 10
+
+
+#If Java is not Installed you'll see an error!!
+
+ERROR: Environment variable JAVA_HOME has not been set.
+Attempting to find JAVA_HOME from PATH also failed.
+Please set the JAVA_HOME variable in your environment
+to match the location of your Java installation.
+
+Step 1: Check if Java is Installed
+Open Command Prompt (cmd) and run:
+
+java -version
+If you see something like:
+
+'java' is not recognized as an internal or external command...
+Then you need to install Java first.
+
+Step 2: Install Java (if missing)
+Download and install OpenJDK or Oracle JDK:
+
+🔗 OpenJDK (Recommended):
+https://adoptium.net/ → Download Temurin JDK (LTS version, e.g., 17 or 21)
+OR
+🔗 Oracle JDK:
+https://www.oracle.com/java/technologies/javase-jdk17-downloads.html
+
+Once installed, note the installation path (e.g., C:\Program Files\Eclipse Adoptium\jdk-17).
+
+Step 3: Set JAVA_HOME Environment Variable
+
+Press Win + R, type sysdm.cpl, and press Enter.
+Go to Advanced → Click Environment Variables.
+Under System variables, click New, and add:
+Variable name: JAVA_HOME
+Variable value: C:\Program Files\Eclipse Adoptium\jdk-17
+(or wherever your JDK is installed)
+Click OK.
+
+Add Java's bin Directory to Path
+Find Path under System variables.
+Click Edit → New, and add:
+
+C:\Program Files\Eclipse Adoptium\jdk-17\bin
+C:\Program Files\Java\jdk-17\bin
+
+Click OK → Apply → OK.
+
+Step 4: Verify Java Setup
+Restart Command Prompt (cmd) and run:
+
+java -version
