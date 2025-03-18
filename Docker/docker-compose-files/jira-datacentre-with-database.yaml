@@ -1,0 +1,38 @@
+#Jira DataCentre Deployment with a dedicated Database:
+
+services:
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira-dc
+    ports:
+      - "7080:8080"
+    environment:
+      - ATL_JDBC_URL=jdbc:postgresql://db:5432/jiradb
+      - ATL_JDBC_USER=jirauser
+      - ATL_JDBC_PASSWORD=jirapassword123
+      - ATL_DB_DRIVER=org.postgresql.Driver
+    depends_on:
+      - db
+    volumes:
+      - jira_data:/var/atlassian/application-data/jira
+    networks:
+      - jira-net
+
+  db:
+    image: postgres:15
+    container_name: jira-postgres
+    environment:
+      - POSTGRES_DB=jiradb
+      - POSTGRES_USER=jirauser
+      - POSTGRES_PASSWORD=jirapassword123
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - jira-net
+
+volumes:
+  jira_data:
+  db_data:
+
+networks:
+  jira-net:

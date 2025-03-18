@@ -1,0 +1,5 @@
+
+
+
+
+docker cp /home/agmt1183/docker/atlassian-data-centre/jira-export.zip jira:/var/atlassian/application-data/jira/import

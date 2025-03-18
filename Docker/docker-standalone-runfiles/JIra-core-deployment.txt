@@ -3,3 +3,26 @@
 docker volume create --name jiraVolume
 
 docker run -v jiraVolume:/var/atlassian/application-data/jira --name="jira" -d -p 7080:8080 atlassian/jira-software
+
+docker network create jira-net
+
+docker run --name postgres \
+  --network=jira-net \
+  -e POSTGRES_DB=jiradb \
+  -e POSTGRES_USER=jirauser \
+  -e POSTGRES_PASSWORD=jirapassword \
+  -v postgres_data:/var/lib/postgresql/data \
+  -d postgres:15
+
+
+docker run -v jiraVolume:/var/atlassian/application-data/jira \
+  --name="jira" \
+  --network=jira-net \
+  -p 7080:8080 \
+  -e ATL_JDBC_URL=jdbc:postgresql://postgres:5432/jiradb \
+  -e ATL_JDBC_USER=jirauser \
+  -e ATL_JDBC_PASSWORD=jirapassword \
+  -d atlassian/jira-software
+
+Hostname: postgres
+Port: 5432

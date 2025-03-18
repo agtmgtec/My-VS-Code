@@ -1,0 +1,160 @@
+#Challange 2:
+---------------------->
+Controlling security 
+--------------------
+
+
+
+Now that external customers have access to your Jira instance, you need to ensure that security is tightly controlled. 
+
+1. What levels of security are available within Jira? 
+Product Level - This controls the access to entire Jira Product, access to entire Jira instance which is controlled by Jira Org Admins, will grant right access to users and groups
+Project Level (Role) - Based on the Project Role the External actors would only be granted access to their project only with the principle of "need to know basis" 
+Issue Level Security - Only authorized level users would be able to do the activities, required.
+
+2. What configurations grant access to public issue tracker projects?
+Grant access to Public ? 
+
+3. How can you hide specific issues from external users?  
+Issue Security - Create a Issue security, with certain clearence level, such that issues which only have proper clearence would only be visible to certain users (eg: Externals)
+
+4. Must you add specific users or groups only? Or are more dynamic entries available?
+For Dynamic assignment there are many:
+Application based access: A group which has access to Jira-Software can be assigned to any logged in users such that they can get the required access,
+Jira Automation: Automation can be set up such that if there is any particaular issue created it has to be assigned to respective group.
+Dynamic User Picker: We can use Scriptrunner to create automations to add in users mentioned.
+
+5. Can you hide issue comments?
+Yes, Only through Global Configurations, where comments can be made to be visible only fro project roles ie: comments visibilities.
+
+6. What cannot be hidden on an issue?
+(System Fields) Epic colour, Epic Link, Epic Name, Design, Development, Category, Approvals, Issue type, goals, Major Incident, Open form etc
+
+7. Which permissions control the editing of certain system fields?
+Cannot edit system fields
+
+8. How can you ensure that external users cannot edit certain fields inline but internal users can?
+We can assign certain editable roles to only certain users and then assign the right project roles accordingly.
+
+9. What permissions do external users need to create dashboards and filters?
+They require Share Dashboards and filters permission.
+
+10. Can you ensure that dashboards and filters are shared with internal users only?
+Yes, it can be done such that any new filters / dashboards created would be shared with only certain project role members.
+
+11. Can you limit who can view and select users or groups from the user pickers?
+Yes, we can create a custom field with user picker (single /multiple) and use issue security to create levels such that if any externals only with that security level clearance can access / see those issues.
+
+12. Can you control who can execute bulk operations?
+No, Only Jira admins can move / execute bulk operations on Jira 
+
+13. Is there a difference in configuring access and security settings between company-managed and team-managed projects?
+Yes, the Company managed projects has more flexibitlity compared to team managed projects since they have schemas available to configure access / permission based on the project requirement.
+
+-------------------------------------------------------------
+
+1️⃣ What levels of security are available within Jira?
+Jira provides multiple security levels to control access:
+
+Global Permissions: Control overall Jira access (e.g., who can create projects).
+Project Permissions: Define what users/groups can do within a project (e.g., browse, edit, transition issues).
+Issue Security Schemes: Restrict access to specific issues within a project.
+Field Security (via Apps): Control visibility of certain fields.
+Comment Visibility: Restrict who can view specific comments.
+
+2️⃣ What configurations grant access to public issue tracker projects?
+To make a Jira project public, you need to:
+
+Go to Project Settings > Permissions.
+Edit the Permission Scheme:
+Add Anyone to Browse Projects (allows public viewing).
+Add Anyone to Create Issues (if external users should submit issues).
+Adjust Issue Security (Optional):
+Use Issue Security Schemes to restrict certain issues from public view.
+Allow anonymous access in Global Permissions (Settings > System > Global Permissions).
+
+3️⃣ How can you hide specific issues from external users?
+Use Issue Security Schemes:
+
+Assign a security level to issues (e.g., "Internal Only").
+Define who can see issues based on roles, groups, or users.
+Users without the required security level cannot see the issue even if they have project access.
+
+4️⃣ Must you add specific users or groups only? Or are more dynamic entries available?
+You can add specific users or groups.
+Dynamic options available:
+Project Roles (e.g., "Developers", "QA Team").
+SCIM Groups (Atlassian Access) for auto-syncing groups from Identity Providers (Okta, Azure AD).
+Automation Rules to assign access based on issue fields or reporter details.
+
+5️⃣ Can you hide issue comments?
+✅ Yes! You can restrict comment visibility by:
+
+Setting "Viewable by" when adding a comment (e.g., restrict to Developers or Admins).
+Using Issue Security Schemes to hide comments along with the issue.
+Some marketplace apps (like Field Security Plugin) allow per-user comment restrictions.
+
+6️⃣ What cannot be hidden on an issue?
+Certain fields in Jira cannot be hidden:
+
+Issue Summary
+Issue Key
+Issue Type
+Project Name
+Issue Status (unless the issue itself is hidden using security schemes)
+
+7️⃣ Which permissions control the editing of certain system fields?
+Edit Issues: Allows general issue editing.
+Schedule Issues: Controls editing of the Due Date field.
+Assign Issues: Controls changes to the Assignee field.
+Set Issue Security: Controls who can change an issue’s security level.
+Link Issues: Controls who can create or remove issue links.
+
+8️⃣ How can you ensure that external users cannot edit certain fields inline but internal users can?
+Use Workflow Properties:
+Restrict fields based on issue status.
+Field Configuration Schemes:
+Make fields read-only for certain users.
+Issue Security Schemes:
+Restrict external users from viewing or editing issues entirely.
+Marketplace Apps (e.g., Field Security Plugin):
+Control field access dynamically per user/group.
+
+9️⃣ What permissions do external users need to create dashboards and filters?
+Create Shared Objects: Allows users to create and share filters/dashboards.
+Manage Shared Dashboards: Controls who can edit shared dashboards.
+Global Permissions > Create Filters and Dashboards: External users need this permission to create them.
+
+🔟 Can you ensure that dashboards and filters are shared with internal users only?
+✅ Yes!
+
+Restrict filter/dashboard sharing to specific groups (e.g., "Internal Users").
+Use Global Permissions to limit who can share dashboards.
+Disable Public Sharing (Jira Admin > System > General Configuration).
+
+1️⃣1️⃣ Can you limit who can view and select users or groups from the user pickers?
+✅ Yes!
+
+Global Permission: Browse Users controls who can search for users.
+Group Membership Restrictions prevent external users from seeing certain groups.
+Field Configuration: Hide user-picker fields from specific roles/groups.
+
+1️⃣2️⃣ Can you control who can execute bulk operations?
+✅ Yes!
+
+The Bulk Change permission in Global Permissions controls who can:
+Bulk edit
+Bulk delete
+Bulk transition issues
+
+1️⃣3️⃣ Is there a difference in configuring access and security settings between company-managed and team-managed projects?
+✅ Yes, major differences exist!
+
+Feature	                        Company-Managed	                         Team-Managed
+Permissions	            Highly customizable (Permission Schemes)	Basic project permissions
+Issue Security	        Supports Issue Security Schemes	            ❌ Not available
+Custom Roles	        Supports Custom Roles & Groups	            ❌ Limited roles (Admin, Member, Viewer)
+Global Settings	        Jira Admins control settings	            Each project admin controls settings
+Automation	            Advanced rules available	                Limited to project scope
+🔹 Company-managed projects offer better control over security and permissions.
+🔹 Team-managed projects are simpler but less customizable.
