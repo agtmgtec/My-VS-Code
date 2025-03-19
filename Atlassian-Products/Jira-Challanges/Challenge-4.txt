@@ -1,0 +1,172 @@
+#Challenge-4: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
+Workflow And Automation:
+------------------------->
+Your teams have been using their projects for a while and requested several configuration changes to improve their processes.
+
+1. How do the steps differ to modify a workflow in a company-managed versus a team-managed project?
+
+2. What types of transitions exist in both types of workflows?
+
+3. How are notifications tied to workflows in company-managed projects?
+
+4. What rules can you add to a team-managed workflow?
+
+5. What is the impact of changing a status name used in company-managed projects?
+
+6. What is the impact of changing a status name used in a team-managed project?
+
+7. What else should you update after making changes to a workflow?
+
+8. What factors help you decide to add a post-function to a transition in a company-managed workflow versus creating an automation rule?
+
+9. What are the parts of an automation rule?
+
+10. Where can you see what automation rules are running in a particular project?
+
+11. How can you change the automation rule actor and why would you do so?
+
+
+#Solution:
+----------->
+
+1. How Do the Steps Differ to Modify a Workflow in a Company-Managed vs. Team-Managed Project?
+Jira offers two types of projects:
+
+✅ Company-Managed Projects (CMP) – More customizable, managed by Jira admins.
+✅ Team-Managed Projects (TMP) – Simpler, self-managed by project admins.
+
+Feature	                                         Company-Managed Project	                       Team-Managed Project
+Who Can Edit Workflows?	                         Jira Admins	                                      Project Admins
+Where to Edit?	                                 Jira Settings > Issues > Workflows	                  Project Settings > Issue Types
+Editing Complexity	                             Advanced (Post-functions, Validators, Conditions)	  Simplified Drag & Drop [Some Rules Exhist]
+Reusable Workflows?	                             Yes, shared across multiple projects	              No, unique per project
+
+Steps to Modify a Workflow:
+
+🔷 Company-Managed Project (CMP)
+
+Go to Jira Admin → Issues → Workflows.
+Select the workflow and click Edit (if used by multiple projects, create a draft).
+Modify transitions, add conditions, validators, or post-functions.
+Publish the changes.
+
+🔷 Team-Managed Project (TMP)
+
+Go to the Project → Project Settings → Issue Types.
+Click on the workflow Edit Workflow (drag & drop interface).
+Add or modify statuses and rules.
+Save changes.
+
+2. What Types of Transitions Exist in Both Types of Workflows?
+Transitions define how an issue moves from one status to another.
+
+Transition Type	Description:
+
+One-Way (Basic)	Move from Status A → Status B
+Two-Way (Reversible):	Status A ↔ Status B (e.g., “Reopen” can go back to "In Progress")
+Global Transitions:	 Any status can transition to a specific status (e.g., “Cancel” to “Done” from anywhere)
+Loopback Transitions:	Moves back to the same status (e.g., Approval required)
+
+🔹 Team-Managed Workflows support simpler transitions without conditions or validators.
+🔹 Company-Managed Workflows support validators, conditions, post-functions, and scripting.
+
+3. How Are Notifications Tied to Workflows in Company-Managed Projects?
+In CMP, notifications are managed by the Notification Scheme and triggered during workflow transitions.
+
+Steps to Configure Notifications:
+Go to Jira Settings → Issues → Notification Schemes.
+Find the scheme assigned to the project and Edit it.
+Add or modify notifications for:
+Issue Created
+Issue Updated
+Issue Assigned
+Issue Resolved
+Issue Closed
+
+🔹 You can also trigger custom notifications using post-functions or automation rules.
+
+4. What Rules Can You Add to a Team-Managed Workflow?
+In a Team-Managed Workflow, you can add Rules to transitions.
+
+Rule Type	Function
+ 1. Restrict Transition: Restrictbased on status of subtask, Restrict to when a field has a specific Value, Restrict who can move the issue, Restrict
+    when a issue has been through a specific status, Restrict users who have previously updated an issue status.
+ 2. Validate Details: Validate a Field, Validate that an issue has been through a specfic status, Validate that parent issues are in a specfic status,
+    Validate that the people has specfic permission.
+ 3. Perform actions: Assignan issue, Copy the Value of one field to another, Update an issue field.
+ 
+🔹 These rules help enforce structured workflows without requiring admin intervention.
+
+5. Impact of Changing a Status Name in a Company-Managed Project?
+
+🔴 Changing a status name affects all workflows that use it.
+
+Issues in that status are automatically updated to reflect the new name.
+Dashboard reports, filters, and JQL queries using status = "Old Name" will break.
+Status mappings in integrations (Jira Service Management, automation rules) might stop working.
+
+✅ Solution: Update all filters, dashboards, and integrations to use the new status name.
+
+6. Impact of Changing a Status Name in a Team-Managed Project
+🔹 Since workflows are not shared, changing a status name affects only that project.
+🔹 Filters and automation rules within the project might need updates, but other projects remain unaffected.
+
+7. What Else Should You Update After Making Changes to a Workflow?
+
+After modifying a workflow:
+
+Update Filters & Dashboards – Update queries that reference statuses.
+Modify Automation Rules – Ensure they still apply correctly.
+Adjust Reports – Check if reports need updates due to status changes.
+Notify Teams – Inform users about new workflows.
+Check Permission Schemes – Ensure the right users can transition issues.
+
+8. When to Use a Post-Function vs. Automation Rule in Company-Managed Projects?
+
+Feature	                            Post-Function (Workflow)	                             Automation Rule
+Executes during transitions?	            Yes	                                             Yes or after transitions
+Requires workflow changes?	                Yes	                                             No
+Triggers external actions?	                No	                                             Yes (e.g., Slack notifications, email alerts)
+Best for	                        Assigning issues, updating fields, adding comments	     Sending notifications, cross-project actions, SLA rules
+
+🔹 Post-Functions are better for field updates, assignments, and internal workflow logic.
+🔹 Automation Rules are better for cross-project triggers and notifications.
+
+9. What Are the Parts of an Automation Rule?
+Automation rules have three main parts:
+
+Trigger – The event that starts the rule (e.g., "Issue Created").
+Conditions – Checks if the rule should proceed (e.g., "Priority = High").
+Action – What happens if conditions are met (e.g., "Assign to John").
+
+🔹 Optional: Add a Branch Rule for related issues (e.g., update linked issues).
+
+10. Where Can You See What Automation Rules Are Running in a Project?
+To check automation rules:
+
+Go to Project Settings → Automation.
+Click Audit Log to see:
+
+Successful rule executions.
+Failed rules with error details.
+Skipped rules (when conditions aren't met).
+
+11. How Can You Change the Automation Rule Actor and Why?
+By default, automation rules run as the user who created them or the Automation for Jira user.
+
+Steps to Change the Rule Actor:
+
+Go to Project Settings > Automation.
+Open the rule and click Rule Details.
+
+Change the Actor to:
+A specific user (if actions should be recorded under their name).
+
+Automation for Jira (if you don’t want a personal user associated).
+
+Why Change It?
+✔ Prevent automation failures due to user permission issues.
+✔ Ensure consistency in issue tracking.
+✔ Use a system user (Automation for Jira) to keep rules working even if the creator leaves.

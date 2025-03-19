@@ -1,0 +1,114 @@
+#Challenge-1: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
+Collaborating with external users
+---------------------------------->
+
+So far, your Jira instance has only been used by internal users for internal purposes. Now the instance should be partially opened up to 
+external customers.  These are the question you need to be asking yourself when you collaborate with external users. 
+
+External customers
+
+1. How can you grant external customers read-only access to only a few projects? Later, you also want to allow external customers 
+to work on issues. What needs to be updated?
+
+Jira issues
+
+2. Can you enable them to submit issues to Jira without having user accounts or product access. What are the different methods for them to do so?
+
+Solution:
+------------>
+
+1. External Customers: Granting Read-Only Access to Specific Projects
+
+🔹 Option 1: Use Jira Service Management (JSM) for External Users
+Best for: External customer support, IT helpdesk, and ticketing.
+
+JSM allows external customers to view and create issues via a customer portal without needing full Jira access.
+Customers do not count towards your Jira license.
+Steps:
+
+Go to Project Settings → Customer Permissions.
+Set "Who can raise requests?" to:
+✔ Anyone can email the helpdesk or access the portal (public).
+✔ Only customers added by agents (controlled access).
+Set "Who can view requests?" to:
+✔ "Customers can view their own requests" (default).
+✔ "Customers can view and comment on requests from their organization."
+
+🔹 Option 2: Use Permission Schemes in Jira Software (for Non-Service Projects)
+Best for: External partners working on specific software projects.
+
+Create a Group for External Users
+
+Go to Jira Admin > User Management > Groups.
+Create a new group (e.g., external-customers).
+Add external users to this group.
+Modify the Project’s Permission Scheme
+
+Go to Jira Admin > Issues > Permission Schemes.
+Create/Edit a permission scheme to restrict access:
+Browse Projects → external-customers (read-only).
+View Issues → external-customers.
+Comment on Issues (if needed) → external-customers.
+Assign this permission scheme to the relevant project.
+Enable Issue-Level Security (Optional)
+
+Go to Project Settings > Issue Security.
+Create a new security scheme to ensure external users only see certain issues.
+✅ Now, external users have read-only access to specific projects.
+
+2. Allowing External Users to Work on Issues
+If you want external users to create and update issues, update the permission scheme:
+
+Grant external-customers permission for:
+Create Issues
+Edit Issues
+Add Comments
+Transition Issues (if required)
+💡 Tip: Use Issue Security Schemes to limit what they can see within the project.
+
+3. Enabling External Users to Submit Issues Without Accounts
+If external users need to submit issues without Jira accounts, you can use one of these methods:
+
+🔹 Option 1: Enable Jira Service Management (Best for Support Requests)
+JSM allows users to submit tickets via:
+
+Email (e.g., support@yourcompany.com).
+Customer Portal (external-facing web interface).
+Embedded Widgets on your website.
+Steps to enable email submission:
+
+Go to Project Settings > Email Requests.
+Link an email address (e.g., support@yourcompany.com).
+Configure automation rules to categorize or auto-assign issues.
+
+🔹 Option 2: Use Anonymous Access in Jira Software (Limited Use)
+Jira Software and Core allow anonymous issue creation if enabled.
+
+Steps:
+
+Go to Jira Admin > System > General Configuration.
+Enable Public Sign-Up (if needed).
+Adjust project permissions:
+Create Issues → Anyone (Public).
+Browse Projects → Anonymous Users (if read-only access is needed).
+❗ Risk: Any external user can create issues, so spam protection is needed.
+
+🔹 Option 3: Create a Public Web Form (Forms to Jira Integration)
+Use Google Forms, Typeform, or a Custom Web Form.
+Configure the form to send submissions via email to a Jira-managed inbox.
+Jira can automatically create issues via its Mail Handler.
+
+Steps:
+
+Set up a Google Form with issue fields (e.g., Title, Description, Priority).
+Use an email handler to process responses into Jira issues.
+Summary of External User Collaboration Methods
+Requirement	Best Approach
+Read-only access to select projects	Permission Schemes (Jira Software)
+Submit issues via email	Jira Service Management Email Handler
+Submit issues via a portal	Jira Service Management Portal
+Submit issues without an account	Public Form + Email Handler
+External users working on issues	Permission Updates + Issue Security
+

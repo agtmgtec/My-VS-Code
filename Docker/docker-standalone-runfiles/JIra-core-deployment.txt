@@ -2,8 +2,6 @@
 
 docker volume create --name jiraVolume
 
-docker run -v jiraVolume:/var/atlassian/application-data/jira --name="jira" -d -p 7080:8080 atlassian/jira-software
-
 docker network create jira-net
 
 docker run --name postgres \

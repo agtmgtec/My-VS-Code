@@ -1,6 +1,8 @@
-#Challange 3
-------------------
+#Challenge-3: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
 Issue assignment
+----------------->
 
 The Assignee field is very important in Jira so that each issue has a single designated person responsible for the progress of work and 
 serves as a clear point of contact. 
@@ -52,6 +54,8 @@ If you select Unassigned, make sure unassigned issues are enabled in Jira settin
 How It Works
 When an issue is created and a component is selected, Jira assigns the issue based on the Component Lead settings.
 If multiple components are assigned, Jira follows the first component added.
+
+
 2. Jira Auto-Assignment Processing Order
 Jira processes issue assignment in the following order:
 
@@ -60,6 +64,8 @@ Component Default Assignee – If the issue has components and they have default
 Project Default Assignee – If no manual or component-based assignment occurs, the issue is assigned to the default assignee set at the project level.
 Automation Rules or Workflow Post-Functions – If configured, these may override previous assignments.
 Unassigned – If no assignment rules are met and unassigned issues are allowed, the issue remains unassigned.
+
+
 3. How to Auto-Assign Mailed-In Issues
 When issues are created via email (Jira Service Management or Jira Core mail handlers), they can be auto-assigned using:
 
@@ -71,12 +77,15 @@ Project where issues should be created.
 Issue Type to assign relevant workflows.
 Default Reporter (if sender is unknown).
 Auto-assignment Rules (by component, workflow post-function, or automation rule).
+
 Method 2: Use Jira Automation for Incoming Emails
 Go to Project Settings > Automation.
 Create a new rule:
 Trigger: "Issue created"
 Condition: Check if the issue was created via email (Issue fields > Description contains "Email received from").
 Action: Assign based on rules (e.g., component, round-robin, etc.).
+
+
 4. How to Bypass Auto-Assignment
 To prevent auto-assignment for specific cases:
 
@@ -93,6 +102,8 @@ Set a rule: If an issue is manually assigned, stop other automation rules from r
 Use Permissions:
 
 Restrict the "Assignable User" permission so that only select users can be auto-assigned.
+
+
 5. Assigning Issues via Workflow Post-Functions (Company-Managed Project)
 Workflow post-functions allow auto-assignment when transitioning issues.
 
@@ -130,14 +141,18 @@ Click Create Rule.
 Select Trigger: Issue Created.
 Add Condition: If summary contains "urgent".
 Add Action: Assign to "John Doe".
+
 Example 2: Round-Robin Assignment
 Trigger: Issue Created.
 Action: Assign to users in a round-robin fashion.
 Use Smart Values to cycle through users.
+
 8. Difference Between "Assign Issues" and "Assignable User" Permissions
+
 Permission	Purpose
 Assign Issues	Allows a user to assign issues to others.
 Assignable User	Determines if a user can be assigned an issue.
+
 Example Scenarios
 If a user has "Assign Issues" permission but NOT "Assignable User," they can assign issues to others but not themselves.
 If a user has "Assignable User" but NOT "Assign Issues," they can be assigned issues but cannot assign issues to others.
