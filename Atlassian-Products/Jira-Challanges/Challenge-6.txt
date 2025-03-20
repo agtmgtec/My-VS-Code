@@ -1,0 +1,162 @@
+#Challenge-6: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
+Notifications:
+-------------->
+
+Different roles in the team require different notifications about issue updates or status changes.
+
+1. What are all the ways in which notifications can be sent from Jira?
+
+2. How do you control which users are notified about which issue changes?
+
+3. In a company-managed project, research using a custom event versus a system event in a workflow post function. When and why might this 
+be useful or necessary?
+
+4. In a team-managed project, which events are available and which entries can be added as recipients?
+
+5. How can individual users control which notifications they receive?
+
+6. Which notifications will users always receive regardless of their personal settings?
+
+7. Can Jira administrators send an email to users?
+
+Solution:
+---------->
+
+1. What are all the ways in which notifications can be sent from Jira?
+Jira provides multiple methods to send notifications about issue updates:
+
+Email Notifications:
+Sent via SMTP based on notification schemes or automation rules.
+Users receive emails when they are added as watchers, assignees, reporters, or participants.
+
+Jira In-App Notifications:
+Alerts appear in the notification bell icon inside Jira.
+Users can configure notification preferences.
+
+Slack or Microsoft Teams Notifications (via Atlassian Marketplace Apps or Automation Rules)
+Notifications can be sent to Slack channels or MS Teams using integrations.
+Commonly used for agile standups, issue assignments, and updates.
+
+Webhook Notifications
+Jira can send JSON payloads to external URLs (e.g., CI/CD tools, monitoring dashboards).
+Used in automation and integrations.
+
+Mobile Push Notifications
+Jira Mobile App sends real-time notifications for assigned issues and mentions.
+
+Jira Service Management (JSM) Customer Notifications
+Customers receive updates via email notifications when their requests are updated.
+
+Jira Automation Notifications
+Custom notifications triggered via Jira Automation rules.
+Can send messages via email, Slack, Teams, or webhooks.
+
+2. How do you control which users are notified about which issue changes?
+
+Notification Schemes (Company-Managed Projects)
+Jira Admins configure Notification Schemes that define which events trigger notifications.
+Users assigned to specific roles, groups, or issue fields (e.g., Assignee, Reporter, Watchers) receive notifications.
+
+Issue-Level Notifications
+Users can watch issues to receive notifications.
+Users mentioned in comments (@mention) get notifications.
+
+Custom Automation Rules:
+Jira Automation allows configuring rules to notify specific users or groups when an issue changes.
+
+Jira Service Management (JSM) Customer Notifications
+Admins can configure customer notifications for status updates, SLA breaches, approvals, etc..
+Project Roles & Groups
+Notifications can be set based on project roles (e.g., Developers, Testers, Managers).
+Example: Managers receive notifications on high-priority issues only.
+
+3. Using a Custom Event vs. a System Event in a Workflow Post Function (Company-Managed Projects)
+
+System Events
+Predefined in Jira (e.g., Issue Created, Issue Updated, Issue Resolved).
+Used in default notification schemes.
+
+Custom Events
+Admins can create custom events in Jira Administration > System > Events.
+Used in workflows when you need specific notifications for custom status transitions.
+
+When and Why to Use a Custom Event?
+For Role-Specific Notifications: Notify only QA Team when an issue enters “Ready for Testing.”
+For External Integrations: Send webhooks only for certain transitions.
+For Granular Control: Avoid unnecessary emails to users not involved in a workflow stage.
+
+Example Use Case
+A company wants only Release Managers to be notified when an issue reaches the "Ready for Release" stage.
+
+Solution: Create a custom event “Ready for Release” and modify the notification scheme to alert only Release Managers.
+
+4. Notifications in Team-Managed Projects (Jira Work Management & Jira Software Next-Gen)
+Unlike Company-Managed Projects, Team-Managed Projects have simplified notification settings.
+
+Available Events
+Issue Created
+Issue Updated
+Issue Assigned
+Issue Transitioned
+Comment Added
+
+Who Can Receive Notifications?
+Reporter
+Assignee
+Mentioned Users
+Watchers
+Project Administrator
+
+Limitations:
+Cannot customize notification schemes like in company-managed projects.
+No support for custom events.
+
+5. How Can Individual Users Control Which Notifications They Receive?
+Users can adjust their notification preferences in:
+
+Personal Email Notifications
+Go to Profile > Personal Settings.
+
+Options include:
+Receive notifications immediately, in batches, or never.
+Disable own issue updates (avoid self-notifications).
+
+Jira In-App Notifications
+Users can configure browser notifications for assigned or watched issues.
+
+Jira Mobile Notifications
+Enable or disable push notifications for new issues or mentions.
+
+Notification Muting
+Users can mute specific Jira projects to reduce noise.
+
+6. Which Notifications Will Users Always Receive Regardless of Personal Settings?
+
+Some notifications override user preferences:
+
+@mentions in Comments or Issue Descriptions → Always receive a notification.
+Issue Assignments → The new assignee always receives a notification.
+Customer Notifications in Jira Service Management (JSM) → Customers receive status updates based on request type settings.
+Admin-Triggered Notifications (e.g., password reset emails, system alerts).
+
+7. Can Jira Administrators Send an Email to Users?
+
+Yes, Jira Admins Can Send Emails via:
+
+1. Bulk Email (Admin Panel)
+Go to Jira Administration > System > Outgoing Mail > Send Email.
+Can send an announcement to specific groups or all users.
+
+2. Jira Automation
+Set up an automation rule to send custom emails to a specific group.
+
+3. Issue Notifications
+Admins can modify notification schemes to send additional email alerts.
+
+4. Webhooks + Email API
+Use third-party email services (e.g., SendGrid, Outlook, Gmail API) to trigger emails outside Jira.
+
+5. Jira Service Management (JSM) Customer Emails
+Admins can manually notify customers via Jira Service Desk portal.

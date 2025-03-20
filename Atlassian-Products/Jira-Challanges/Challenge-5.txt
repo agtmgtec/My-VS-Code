@@ -3,3 +3,158 @@
 
 Search And Reporting:
 --------------------->
+
+You need to create filters and dashboards to report on the current state of work and to review past performance. 
+These are the questions that should be on the forefront while searching and reporting. 
+
+1. What are some frequently used gadgets and what configuration options do they have?
+
+2. Which ones show historical information?
+
+3. Which gadgets will display different information depending on the user viewing them?
+
+4. What are the parts of a JQL query?
+
+5. How can multiple clauses in a JQL query impact the results returned?
+
+6. What are all the reasons that the same shared filter can show different results to different users?
+
+7. Which JQL functions will present results relative to the user or the user’s timezone?
+
+8. Explore filter subscriptions. Who can create a private or group filter subscriptions? What kind of schedule can be set? 
+Will users always receive the same results? Can you email a subscription even if there are no results found?
+
+Solution:
+----------->
+
+1. What are some frequently used gadgets and what configuration options do they have?
+Jira dashboards are composed of gadgets that display different types of information. Some frequently used gadgets include:
+
+Filter Results:
+Displays issues returned by a saved filter.
+Configuration options: Saved filter, number of issues, columns to display, auto-refresh interval.
+
+Issue Statistics:
+Groups issues based on a selected field (e.g., Assignee, Status, Priority).
+Configuration options: Saved filter, statistic type (field to group by), auto-refresh interval.
+
+Pie Chart:
+Visualizes issue distribution based on a selected field.
+Configuration options: Saved filter, statistic type, chart display options.
+
+Created vs. Resolved Chart
+Shows trends of issues created vs. resolved over time.
+Configuration options: Saved filter, period (daily/weekly/monthly), auto-refresh interval.
+
+Two-Dimensional Filter Statistics
+Displays issue statistics in a table format with two selected fields.
+Configuration options: Saved filter, X-axis field, Y-axis field.
+
+Sprint Health Gadget
+Summarizes the current sprint's progress and key metrics.
+Configuration options: Board/sprint selection.
+
+Sprint Burndown Chart
+Shows progress toward sprint completion.
+Configuration options: Board, sprint selection.
+
+Velocity Chart
+Compares committed vs. completed story points across multiple sprints.
+Configuration options: Board selection.
+
+2. Which ones show historical information?
+Gadgets that display historical trends include:
+
+Created vs. Resolved Chart – Tracks issue creation vs. resolution over time.
+Sprint Burndown Chart – Shows how work is progressing in a sprint.
+Velocity Chart – Displays past sprint performance.
+Control Chart – Shows cycle time trends over past issues.
+Cumulative Flow Diagram – Displays issue flow across statuses over time.
+These gadgets help teams analyze past performance and identify trends or bottlenecks.
+
+3. Which gadgets will display different information depending on the user viewing them?
+Some gadgets display user-specific information:
+
+Assigned to Me Gadget – Shows issues assigned to the logged-in user.
+Watched Issues Gadget – Displays issues the logged-in user is watching.
+Activity Stream – Shows user activity updates based on permissions.
+Favorite Filters Gadget – Displays the favorite filters of the logged-in user.
+Additionally, gadgets based on filters with dynamic JQL functions (like currentUser()) will show different results depending on the user.
+
+4. What are the parts of a JQL query?
+A JQL query consists of:
+
+Fields – The issue attributes being searched (e.g., status, assignee, project).
+Operators – Define conditions (=, !=, IN, NOT IN, >, <, ~, etc.).
+Values – Specific criteria to match (e.g., Open, John Doe).
+Keywords – Logical connectors (AND, OR, ORDER BY).
+Functions – Dynamic values (currentUser(), startOfMonth(), endOfWeek(), etc.).
+Example query:
+
+JQL
+project = "Marketing" AND status = "In Progress" AND assignee = currentUser() ORDER BY priority DESC
+
+5. How can multiple clauses in a JQL query impact the results returned?
+Using AND – Narrows results (all conditions must be true).
+Using OR – Expands results (at least one condition must be true).
+Combining AND and OR – Must use parentheses to avoid confusion.
+Using NOT – Excludes specific results.
+Example:
+
+JQL
+project = "Dev Team" AND (status = "To Do" OR assignee = "Alice")
+This finds issues in the "Dev Team" project that are either To Do or assigned to Alice.
+
+6. What are all the reasons that the same shared filter can show different results to different users?
+Permissions on issues – Users only see issues they have permission to view.
+Project permissions – Some users may not have access to certain projects.
+Filter permissions – Even if a filter is shared, the issues inside may not be visible to all users.
+Dynamic JQL functions – currentUser(), myProjects(), etc., return different values per user.
+Field-level permissions – Some fields may be hidden for certain users.
+
+7. Which JQL functions will present results relative to the user or the user’s timezone?
+
+User-dependent functions:
+currentUser() – Issues assigned to or reported by the logged-in user.
+membersOf("group") – Issues assigned to users in a specific group.
+
+Time-dependent functions:
+startOfDay(), endOfDay()
+startOfWeek(), endOfWeek()
+startOfMonth(), endOfMonth()
+now()
+These functions adjust based on the user’s timezone settings in Jira.
+
+Example:
+
+created >= startOfMonth() AND created <= endOfMonth()
+This finds all issues created this month, adjusting to the user’s timezone.
+
+8. Explore filter subscriptions. Who can create a private or group filter subscription? What kind of schedule can be set? Will users always 
+receive the same results? Can you email a subscription even if there are no results found?
+
+Filter Subscriptions:
+A filter subscription sends automatic email updates based on a saved filter.
+
+Who can create them?
+Any user can create a private subscription for personal use.
+A filter shared with a group can be subscribed to by that group.
+
+Scheduling options:
+Daily, weekly, monthly, or specific intervals.
+Options for business days only.
+Can be triggered at a specific time (e.g., 8:00 AM).
+
+Will users always receive the same results?
+No. Results may vary because:
+Issues may be updated/closed.
+Some users may not have permission to view certain issues.
+Dynamic JQL functions (currentUser(), startOfDay()) may yield different results.
+
+Can you email a subscription even if there are no results?
+By default, Jira does not send an email if there are no results.
+However, some versions/settings allow forced emails even with no results.
+Example: A filter subscription that emails a report of all unresolved critical issues every morning.
+
+JQL
+project = "IT Support" AND priority = "Critical" AND resolution IS EMPTY ORDER BY created DESC
