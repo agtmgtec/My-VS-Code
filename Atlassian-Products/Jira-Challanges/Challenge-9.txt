@@ -1,0 +1,191 @@
+#Challenge-9: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
+Administering and maintaining Jira:
+------------------------------------->
+
+Backing up the data of your Jira instance is crucial.
+
+1. What options are included in the backup manager?
+2. What data and configurations are included in backups?
+
+Solution;
+--------->
+1. Backing Up Jira: Understanding the Backup Manager
+What Options Are Included in the Backup Manager?
+Jira provides two main backup options:
+
+A. Jira Cloud Backup Options
+Backup Manager (Admin Panel)
+Exports a ZIP file containing issues, configurations, and attachments.
+
+Automated Daily Backups (Cloud)
+Atlassian automatically backs up Jira Cloud daily (cannot be manually triggered).
+
+External Backup Solutions
+Use third-party apps like Revyz or BackupMyJira for incremental backups.
+
+B. Jira Data Center & Server Backup Options
+
+Jira System Backup
+Exports Jira issues and configuration data (XML format).
+
+Database Backups
+Admins can manually back up the database (PostgreSQL, MySQL, MSSQL).
+
+Application-Level Backup (Full Instance)
+Includes database, attachments, indexes, and logs.
+
+2. What Data and Configurations Are Included in Backups?
+
+Included in Backup	             Not Included
+Issues & Comments	             User passwords (if using external auth)
+Custom Fields	                 Marketplace Apps & App Data
+Workflows	                     Sprint & Board Configurations
+Permissions & Schemes	         Dashboards & Filters (Cloud Backup)
+Attachments (if selected)	     Some User Preferences
+
+Best Practice: If using Jira Cloud, supplement backups with a third-party backup tool.
+
+Importing Project Data from Jira:
+-------------------------------->
+Your company needs to import some project data.
+
+3. What products can you import data from?
+4. What are the steps and requirements to import via CSV file?
+5. What are the differences between end users importing from CSV versus Jira admins importing via the System menu?
+
+Solution:
+---------->
+
+3. What Products Can You Import Data From?
+Jira supports importing from:
+
+✅ Another Jira Instance (Cloud → Cloud, Server → Server)
+✅ CSV Files (from spreadsheets, external trackers)
+✅ Trello (via migration tool)
+✅ Asana, Monday.com, ClickUp (via third-party integrations)
+✅ Redmine, Bugzilla, GitHub Issues (via CSV or plugins)
+
+4. Importing Data via CSV: Steps and Requirements
+
+1️⃣ Prepare the CSV File
+Ensure column headers match Jira field names (Summary, Description, Issue Type).
+Use consistent date formats (YYYY/MM/DD).
+
+2️⃣ Access Import Options
+Users: Go to Issues > Import Issues from CSV.
+Admins: Go to Jira System > External System Import > CSV (allows bulk importing with more control).
+
+3️⃣ Map CSV Fields to Jira Fields
+Map Reporter, Assignee, and Custom Fields correctly.
+
+4️⃣ Validate & Import
+Jira checks for errors before importing.
+
+5️⃣ Review Imported Issues
+Verify data accuracy in the project.
+
+5. Differences:End-Users vs. Jira Admins Importing CSV
+
+Feature	                  End-User Import	                Admin Import (System Menu)
+Who Can Use	Any           Jira user	                        Jira Admins only
+Scope	                  Single Project	                Multiple Projects
+User Permissions	      Users need issue creation rights	Admins bypass permissions
+Custom Field Mapping	  Limited	                        Full Control
+Bulk Data Changes	      No	                            Yes (e.g., moving issues between projects)
+
+Best Practice: For large data migrations, Jira Admins should handle imports via the System Menu.
+
+Evaluating, Installing, and Managing Atlassian Marketplace Apps
+--------------------------------------------------------------->
+
+6. How should you evaluate Marketplace apps?
+7. How and where do you install, manage, troubleshoot, and audit apps in Jira?
+8. How can users request apps?
+
+Solution:
+--------->
+
+6. How to Evaluate Marketplace Apps?
+
+1️⃣ Check Compatibility
+Is the app compatible with your Jira version (Cloud vs. Data Center vs. Server)?
+
+2️⃣ Look at Reviews & Support
+Are there positive reviews & active support?
+
+3️⃣ Security & Compliance
+Check if the app is Atlassian Cloud Fortified for security.
+
+4️⃣ Trial the App
+Most apps offer free trials (30 days).
+
+7. How & Where to Install Marketplace Apps?
+
+For Jira Cloud:
+Admin Panel > Apps > Find New Apps
+Search & install directly from Atlassian Marketplace.
+
+For Jira Data Center & Server:
+Download .jar file and upload via Jira Admin > Manage Apps.
+
+Troubleshooting App Issues:
+Check logs: Jira Administration > System > Logging & Profiling.
+Disable/Re-enable the app.
+Check permissions & dependencies.
+
+How to Audit Installed Apps?
+Go to Jira Admin > Manage Apps > Audit Logs.
+Review who installed/uninstalled apps.
+
+8. How Can Users Request Apps?.
+Standard Process for Requesting Apps
+
+A. Submitting a Service Desk Request (Recommended)
+Many organizations use Jira Service Management (JSM) or another ITSM tool for app requests.
+Users submit a request with details like:
+App name (e.g., "ScriptRunner for Jira")
+Purpose (why they need the app)
+Business justification (how it improves workflows)
+Expected usage (team size, required features)
+
+App Name: Tempo Timesheets  
+Purpose: Time tracking for project billing  
+Justification: Helps track billable hours for client projects  
+Expected Usage: Finance & Project Teams (20 users)  
+
+B. Requesting Through Jira Admins or IT Team
+Users can email or message the Jira administrator with app details.
+Some companies have an internal approval process where the IT or Procurement team evaluates the request.
+
+C. Using a Custom "App Request" Jira Issue Type
+Jira admins can create a custom issue type called "App Request" within a Jira project (e.g., IT Helpdesk).
+Users create a new issue when they need an app.
+The request goes through an approval workflow before installation.
+
+Monitoring, Troubleshooting & Auditing Jira
+-------------------------------------------->
+
+9. What monitoring tools are available to Jira administrators?
+10. What are the various audit logs and how do you access them?
+
+Solution:
+---------->
+
+9. Monitoring, Troubleshooting & Auditing Jira
+
+A. What Monitoring Tools Are Available to Jira Administrators?
+✅ Jira System Metrics (for memory, CPU, DB performance)
+✅ Atlassian Application Performance Monitoring
+✅ New Relic, Datadog, Splunk (for real-time monitoring)
+✅ Jira’s Health Check Tool (Jira Administration > System > Troubleshooting & Support)
+
+10. Jira Audit Logs: How to Access & Use Them?
+Types of Audit Logs in Jira
+
+Audit Log	Purpose	Where to Access
+General Audit Log	Tracks changes to projects, users, permissions	Admin > System > Audit Log
+Issue History	Tracks individual issue changes	Inside each issue
+Security Log	Logs failed logins, user auth changes	Jira Admin > Security Logs
+Marketplace App Logs	Tracks app installations/uninstalls	Admin > Manage Apps > Audit

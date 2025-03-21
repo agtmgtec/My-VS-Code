@@ -3,4 +3,166 @@
 
 Creating projects:
 ------------------>
+You received business requirements to create a new project.
+
+1. What are the considerations for choosing a team-managed versus a company-managed project?
+
+2. What do you need to know in order to choose a particular project template?
+
+3. What are the pros and cons of creating a company-managed project using a shared configuration?
+
+4. How should you decide whether to use components, labels, or custom fields to sub-categorize issues within the project?
+
+5. What can project administrators do in a company-managed project?
+
+6. What can project administrators do in a team-managed project?
+
+Solution:
+--------->
+
+1. What are the considerations for choosing a team-managed versus a company-managed project?
+Jira offers two types of projects, team-managed (previously Next-Gen) and company-managed (previously Classic). 
+The choice depends on team autonomy, governance, and complexity.
+
+Company-Managed Projects (CMP)
+✅ Best for: Large teams, organizations needing standardization across multiple projects.
+✅ Managed by: Jira Administrators (Global Admins).
+✅ Customization: Uses global schemes (workflows, permissions, issue types, notification schemes).
+✅ Scalability: Multiple projects can share the same configurations.
+✅ Security: Centralized control over project settings.
+✅ Best for regulated industries: Compliance and governance.
+
+Team-Managed Projects (TMP)
+✅ Best for: Small teams, independent work, agile teams needing flexibility.
+✅ Managed by: Project Administrators (No Jira Admin needed).
+✅ Customization: Fully customizable by the team without affecting other projects.
+✅ Agility: Quick setup and changes, but not reusable in other projects.
+✅ Simpler Permissions: Uses basic roles like Admin, Member, and Viewer instead of complex permission schemes.
+
+Key Considerations:
+------------------>
+Factor	                                  Company-Managed	                             Team-Managed
+Who manages settings?	                  Jira Admins	                                 Project Admins
+Customization scope?	                  Uses shared global schemes	                 Independent per project
+Best for large orgs?	                  ✅ Yes	                                       ❌ No
+Best for small agile teams?	              ❌ No	                                       ✅ Yes
+Reusable settings?	                      ✅ Yes	                                       ❌ No
+Security & Compliance?	                  ✅ Strong	                                   ❌ Weaker
+Permission flexibility?	                  ✅ Advanced	                               ❌ Basic
+ [Choose Company-Managed if standardization, scalability, and security are priorities.]
+ [Choose Team-Managed if your team wants full autonomy and quick iterations.]
+
+2. What do you need to know in order to choose a particular project template?
+When selecting a project template, consider:
+
+ 1. Type of Work the Team Handles
+Software Teams: Choose Scrum, Kanban, or Bug Tracking templates.
+Business Teams: Choose Jira Work Management templates like Task Tracking or Procurement.
+Service Teams: Choose Jira Service Management (JSM) templates for ITSM and Helpdesk support.
+
+ 2. Agile vs Traditional
+Agile Teams → Scrum (sprints) or Kanban (continuous flow).
+Non-Agile Teams → Use a Business or Service project.
+
+ 3. Required Workflows
+Simple workflows → Team-Managed templates.
+Custom workflows → Company-Managed templates.
+
+ 4. Compliance and Governance
+If the project requires audit tracking, permissions, or standardization, use Company-Managed.
+
+ 5. Integrations & Reporting Needs
+Some third-party apps or reporting tools work best with Company-Managed Projects.
+
+Example Choice:
+[A software development team using sprints should choose Scrum template.]
+[A service desk handling tickets should choose IT Service Management template.]
+
+3. What are the pros and cons of creating a company-managed project using a shared configuration?
+A shared configuration means the new project inherits settings from an existing project (workflows, permissions, fields, notifications).
+
+Pros:
+✅ Standardization: Ensures uniform workflows, permissions, and reports across projects.
+✅ Easier Maintenance: Admins update one shared scheme, affecting all projects.
+✅ Faster Setup: No need to manually configure everything.
+✅ Consistency: Teams follow the same issue types, statuses, and notifications.
+
+Cons:
+❌ Less Flexibility: Cannot modify workflows, fields, or permissions without affecting other projects.
+❌ Risk of Breaking Other Projects: If an admin changes a shared scheme, all projects using it are impacted.
+❌ Permissions Depend on Global Admins: Project admins cannot modify key settings.
+
+Use Shared Configuration if:
+Multiple projects follow the same workflow and rules.
+You need consistent reporting across projects.
+
+Avoid Shared Configuration if:
+Each team needs different fields, workflows, or permissions.
+
+4. How should you decide whether to use components, labels, or custom fields to sub-categorize issues within the project?
+Sub-categorization helps organize issues. Choosing the right method depends on team needs.
+
+Components (Best for Owned Areas)
+Used to categorize issues by functional areas (e.g., "Frontend", "Backend", "API").
+Each component can have an owner, useful for auto-assigning tickets.
+Works only within a single project.
+
+Use Components when:
+The project has distinct modules or teams handling different areas.
+You want default assignees per category.
+
+Labels (Best for Flexible Tagging)
+Freeform text tags that allow cross-project filtering.
+No predefined values (users can add new labels).
+Useful for ad-hoc categorization.
+
+Use Labels when:
+You need a lightweight, flexible tagging system.
+Issues may belong to multiple categories.
+
+Custom Fields (Best for Standardized Data)
+Used for structured, predefined categories.
+Can be mandatory (unlike labels).
+Supports dropdowns, dates, checkboxes, etc.
+
+Use Custom Fields when:
+You need consistent data across issues.
+You want controlled input (e.g., dropdowns) instead of free-text labels.
+
+Use Case	                                    Components	   Labels	   Custom Fields
+Predefined Options?	                            ✅ Yes	      ❌ No	    ✅ Yes
+Best for owned areas?	                        ✅ Yes	      ❌ No	    ❌ No
+Works across projects?	                        ❌ No	      ✅ Yes	    ✅ Yes
+Best for reporting?	                            ✅ Yes	      ❌ No	    ✅ Yes
+
+5. What can project administrators do in a company-managed project?
+Project Administrators (non-global admins) have limited control.
+
+Permissions Include:
+✅ Manage Components
+✅ Manage Versions (for Software projects)
+✅ Edit Board Configurations (in Scrum/Kanban)
+✅ Update Project Settings (e.g., name, description)
+✅ Modify User Roles (e.g., assign users to Developer, Tester roles)
+✅ Enable/Disable Features (e.g., Backlog, Releases)
+
+Limitations (Require Jira Admin Rights):
+❌ Cannot edit workflows.
+❌ Cannot modify custom fields.
+❌ Cannot change notification schemes.
+❌ Cannot configure permissions schemes.
+
+6. What can project administrators do in a team-managed project?
+Since team-managed projects are independent, Project Admins have full control.
+
+Permissions Include:
+✅ Create & Edit Workflows
+✅ Add & Modify Fields
+✅ Manage Roles & Permissions
+✅ Customize Issue Types
+✅ Enable or Disable Features (e.g., backlog, sprints)
+
+Limitations:
+❌ Cannot share settings with other projects.
+❌ Cannot configure advanced permissions (fixed roles: Admin, Member, Viewer).
 

@@ -1,0 +1,18 @@
+
+---
+services:
+  rustdesk:
+    image: lscr.io/linuxserver/rustdesk:latest
+    container_name: rustdesk
+    security_opt:
+      - seccomp:unconfined #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/config:/config
+    ports:
+      - 4500:3000
+      - 4006:3001
+    restart: unless-stopped

@@ -1,0 +1,293 @@
+#Challenge-8: [ACP-120 Jira Cloud Administration]
+---------------------------------------------------->
+
+Merging and Splitting of Projects:
+------------------------------------->
+
+Merging Projects:
+Two projects need to be merged.
+
+1. What must you assess before continuing with the migration and how can you merge the projects?
+
+2. Is the process different if they have different project types (e.g. software and business)?
+
+3. Is the process different if one is a company-managed project and the other is a team-managed project?
+
+4. What data is preserved and what data is lost?
+
+5. What common errors do you encounter when using bulk operations to migrate issues between projects?
+
+Solution:
+----------->
+
+1. What must you assess before continuing with the migration and how can you merge the projects?
+
+Pre-Migration Assessment
+Before merging projects, consider the following factors:
+
+A. Project Type & Configuration
+Are both projects company-managed or team-managed?
+Company-managed projects use global schemes (workflows, fields, permissions), while team-managed projects have independent configurations.
+
+Are they different project types (e.g., Software vs. Business vs. Service Management)?
+Different project types have unique features (Scrum/Kanban boards for software projects, request types for service management, etc.).
+
+Do they share similar issue types and workflows?
+If workflows differ, you must map issues to the target project’s workflow.
+
+B. Field Compatibility
+Are custom fields the same?
+If Project A uses "Category" (custom dropdown) and Project B does not, those values may be lost.
+
+Are field values standardized?
+Example: Project A has "High, Medium, Low" priority, but Project B has "P1, P2, P3".
+You may need to map values before migration.
+
+C. Issue Keys and Naming Conflicts
+Jira assigns a unique project key (e.g., PROJ-123).
+After merging, issues from the old project will retain their original keys.
+
+D. Permissions & Notification Schemes
+Ensure that users of both projects have the correct access in the new project.
+Adjust notification schemes so users receive relevant updates.
+
+How to Merge Projects?
+Approach 1: Using Bulk Issue Move (Recommended for Company-Managed Mergers)
+
+Go to Jira Issue Navigator (Advanced Search > JQL Query).
+Find all issues from the source project:
+JQL
+project = "SourceProject"
+
+Click Tools > Bulk Change > Move Issues.
+Select the destination project.
+Map issue types, workflows, statuses, and custom fields.
+Confirm and execute the move.
+
+Approach 2: Using Automation Rules (For Ongoing Migrations)
+If issues will be merged gradually, set up Jira Automation:
+Trigger: Issue Created in Project A
+Action: Clone issue into Project B and delete from A
+
+Approach 3: Export and Import (For Complex Cases)
+Export issues from the source project to CSV.
+Modify field mappings and import into the destination project.
+
+2. Is the process different if they have different project types (e.g., Software and Business)?
+Yes, merging Software and Business projects introduces additional challenges:
+
+Key Differences in Software vs. Business Projects:
+
+Feature	       Software Project	            Business Project
+Boards	       Uses Scrum/Kanban	        No boards (uses lists instead)
+Workflows	   Supports Agile workflows	    Typically simpler workflows
+Releases	   Supports versions/releases	No release tracking
+Backlog	       Has a backlog feature	    No backlog
+
+Merging Process Adjustments
+If merging a Software Project into a Business Project, backlog and sprints may be lost.
+If merging a Business Project into a Software Project, you may need to manually add Agile boards.
+
+Workaround:
+Convert the Business Project into a Software Project before merging.
+
+3. Is the process different if one is a company-managed project and the other is a team-managed project?
+Yes, merging a team-managed project with a company-managed project is complex.
+
+Key Challenges
+Feature	                Company-Managed	            Team-Managed
+Issue Types	            Uses global issue types	    Uses custom issue types
+Workflows	            Shared across projects	    Independent per project
+Permissions	Uses        Permission Schemes	        Uses Basic Roles
+Custom Fields	        Defined globally	        Unique to the project
+
+Steps to Merge Team-Managed into Company-Managed
+Manually Map Issue Types:
+If "Bug" exists in Team-Managed, but not in Company-Managed, create a mapping.
+
+Standardize Workflows:
+Adapt statuses and transitions to fit the Company-Managed workflow.
+
+Manually Recreate Custom Fields:
+Team-Managed custom fields cannot be transferred directly.
+
+Move Issues via Bulk Move:
+Export Team-Managed issues to CSV, adjust fields, then import.
+Important: You cannot directly move issues from a team-managed to a company-managed project without manual adjustments.
+
+4. What Data is Preserved and What Data is Lost?
+
+Preserved Data
+✅ Issue Keys (PROJ-123 remains the same)
+✅ Issue History & Comments
+✅ Attachments & Worklogs
+✅ Assignees, Reporters, Watchers
+✅ Labels
+
+Lost or Altered Data
+❌ Sprint Data – Issues may lose sprint history.
+❌ Custom Fields (if mismatched) – If a custom field exists in one project but not the other, data may be lost.
+❌ Board Configurations – Kanban and Scrum boards must be manually recreated.
+❌ Issue Security Settings – May need to be reconfigured.
+
+Best Practice: Create a backup before merging!
+
+5. What Common Errors Do You Encounter When Using Bulk Operations to Migrate Issues Between Projects?
+
+ 1. “Issue Type Not Found” Error
+ 🔹 Occurs when the destination project does not have the same issue types.
+ ✅ Fix: Pre-map issue types before bulk moving. 
+
+ 2. “Field Value Not Found” Error
+ 🔹 Happens if custom fields have different values across projects.
+ ✅ Fix: Create missing values in the destination project before migration.
+
+ 3. “Invalid Status Mapping” Error
+ 🔹 Occurs when an issue’s status doesn’t exist in the target workflow.
+ ✅ Fix: Pre-map statuses before moving issues.
+
+ 4. “Permission Denied” Error
+ 🔹 Happens if the user does not have Move Issue permissions.
+ ✅ Fix: Grant the Move Issues permission in Jira settings.
+
+ 5. “Sprint Data Lost” Warning
+ 🔹 Moving issues removes them from their original sprint.
+ ✅ Fix: Reassign issues to a new sprint manually.
+
+ 6. “Attachments Not Migrated” Issue
+ 🔹 Some exports do not include attachments.
+ ✅ Fix: Use Jira API for bulk attachment migration.
+
+Splitting projects
+-------------------->
+Alpha software team and their project are splitting in two. The new project and team will be called Bravo.
+
+1. What requirements would necessitate creating separate individual schemes versus using shared schemes in company-managed projects?
+
+2. What requirements would necessitate creating a separate workflow for one or all of the issue types?
+
+3. Can both teams use the same custom fields with different values and defaults in each project?
+
+4. How can you satisfy the need for different sets of resolutions in company-managed projects?
+
+5. How do the above changes affect reporting?
+
+Solution:
+---------->
+
+1. What requirements would necessitate creating separate individual schemes versus using shared schemes in company-managed projects?
+A scheme in Jira refers to shared settings for workflows, permissions, notifications, issue types, and screens.
+
+When to Use Shared Schemes?
+✅ Standardized Workflows – If both teams follow the same process, using the same workflow scheme makes maintenance easier.
+✅ Consistent Permissions – If Alpha and Bravo teams have the same access roles, sharing the permission scheme avoids redundancy.
+✅ Uniform Notifications – If the notification needs are identical, share the notification scheme.
+✅ Global Custom Fields – If both teams use the same custom fields, share the field configuration scheme.
+
+When to Use Separate Schemes?
+❌ Different Workflows – If Alpha and Bravo teams have unique issue lifecycles, they need separate workflow schemes.
+❌ Different Access Requirements – If Bravo needs stricter permissions or a different team structure, use a separate permission scheme.
+❌ Different Notifications – If Bravo wants specific users notified at different stages, a separate notification scheme is required.
+❌ Different Custom Fields – If fields must have different values, defaults, or visibility, use a separate field configuration scheme.
+
+Example Decision Matrix:
+Scheme Type	                  Shared?	                    Separate?
+Workflow Scheme	              If processes are identical	If workflows differ
+Permission Scheme	          If team roles are identical	If Bravo needs different access
+Notification Scheme	          If same users get notified	If Bravo needs unique notifications
+Field Configuration	          If fields & defaults match	If custom fields require different defaults
+Issue Type Scheme	          If both use same issue types	If Bravo needs different issue types
+
+2. What requirements would necessitate creating a separate workflow for one or all of the issue types?
+A workflow defines the lifecycle of an issue (e.g., To Do → In Progress → Done).
+
+When to Create a Separate Workflow?
+1️⃣ Different Approval Steps – If Bravo requires extra approval steps (e.g., QA Review, Security Check).
+2️⃣ Different Issue Closure Rules – If Alpha allows auto-closing issues, but Bravo requires a manual review.
+3️⃣ Unique Issue Types – If Bravo introduces new issue types (e.g., "Security Audit"), it needs its own workflow.
+4️⃣ Custom Transition Conditions – If Bravo requires additional post functions, such as notifying different stakeholders.
+
+Example Workflow Differences
+Requirement	            Alpha Workflow	                 Bravo Workflow
+Issue Lifecycle	        To Do → In Progress → Done	     To Do → Development → QA → Done
+Approval Steps?	        No	                             Yes (QA Review)
+Auto Close?	            Yes	                             No (Manual Review Needed)
+Different Issue Types?	No	                             Yes (Security Audit)
+
+Conclusion: If Bravo has a simpler or more complex issue flow, it should have a separate workflow.
+
+3. Can both teams use the same custom fields with different values and defaults in each project?
+✅ Yes, but only with separate Field Configuration Schemes.
+
+How to Handle This?
+A Custom Field Configuration Scheme allows different default values, required settings, and field visibility per project.
+
+Example:
+Severity field in Alpha defaults to "Medium" but in Bravo defaults to "Critical".
+Alpha allows "Low, Medium, High" values, while Bravo allows "P1, P2, P3, P4".
+
+Solution:
+1️⃣ Create a new Field Configuration Scheme for Bravo.
+2️⃣ Assign different default values and dropdown options for shared custom fields.
+
+Conclusion: Using a shared field with different configurations allows both projects to use the same field but display different values.
+
+4. How can you satisfy the need for different sets of resolutions in company-managed projects?
+Jira Resolutions determine how an issue is closed (e.g., Fixed, Won’t Fix, Duplicate).
+
+Solution: Separate Workflow Schemes with Unique Resolutions
+Resolutions cannot be project-specific; they apply globally.
+To enforce different resolution sets per project, use workflows.
+
+Steps to Set Different Resolutions for Alpha and Bravo
+1️⃣ Create a separate Workflow for Bravo.
+2️⃣ Modify the "Done" transition in Bravo’s workflow:
+
+Add a transition screen that only shows resolutions needed for Bravo.
+3️⃣ Ensure the Global Resolution Field is Required in the transition.
+
+Example Differences
+Resolution	                 Alpha	Bravo
+Fixed	                     ✅	  ✅
+Won't Fix	                 ✅	  ✅
+Duplicate	                 ✅	  ❌
+Security Risk Mitigated	     ❌	  ✅
+Compliance Required	         ❌	  ✅
+
+Conclusion: Workflows are the best way to enforce project-specific resolution sets.
+
+5. How do the above changes affect reporting?
+Splitting the project into Alpha and Bravo impacts Jira dashboards, reports, and JQL searches.
+
+Impact on Reports & Dashboards
+
+1️⃣ Separate Reports for Each Project
+Dashboards tracking Alpha’s progress will no longer include Bravo issues.
+Solution: Update filters to include "project IN (Alpha, Bravo)" if needed.
+
+2️⃣ Custom Fields in Filters
+Since Bravo has different default values, old reports may misinterpret custom fields.
+Solution: Update reports to reflect Bravo’s custom field defaults.
+
+3️⃣ Issue History & Sprint Velocity
+If Bravo uses a new sprint board, its velocity reports will start from zero.
+Solution: Combine historical sprint data if comparing past performance.
+
+4️⃣ Different Resolution Categories
+Reports on resolved issues may need to be updated if Bravo uses different resolutions.
+
+5️⃣ JQL Search Queries Change
+Old queries using project = Alpha must be updated to project IN (Alpha, Bravo).
+Example of Updated JQL Queries
+Requirement	Old JQL	New JQL
+
+Find all issues	project = Alpha	project IN (Alpha, Bravo)
+Find unresolved issues	project = Alpha AND resolution = Unresolved	project = Bravo AND resolution = Compliance Required
+Conclusion: Reports, dashboards, and queries must be updated to reflect the split between Alpha and Bravo.
+
+
+
+
+
+
+
